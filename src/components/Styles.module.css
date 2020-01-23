@@ -1,0 +1,44 @@
+.header {
+	position: fixed;
+	display: flex;
+	flex-direction: row;
+	top: 0;
+	right: 0;
+	left: 0;
+	height: 50px; 
+	background: grey;
+	overflow-x: hidden;
+	flex: 1;
+}
+
+ .projects {
+	position: fixed;
+	display: flex;
+	flex-direction: column;
+	top: 50px;
+	bottom: 0;
+	left: 0;
+	width: 210px;
+	background: black;
+	overflow-x: hidden;
+	flex: 1;
+}
+
+.content {
+	position: fixed;
+	display: flex;
+	flex-direction: column;
+	top: 50px;
+	bottom: 0;
+	right: 0;
+	left: 210px;
+	background: green;
+	overflow-x: hidden;
+	flex: 1;
+}
+
+.menuItem { 
+	display: flex; 
+	align-items: center; 
+	flex: 1;
+}

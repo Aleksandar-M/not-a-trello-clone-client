@@ -1,44 +1,77 @@
+/* Style the header */
+
 .header {
-	position: fixed;
-	display: flex;
-	flex-direction: row;
-	top: 0;
-	right: 0;
-	left: 0;
-	height: 50px; 
+	height: 50px;
+	width: 100%;
 	background: grey;
-	overflow-x: hidden;
-	flex: 1;
+	display: flex;
 }
 
- .projects {
-	position: fixed;
+.left_header {
+	background: yellow;
+	width: 210px;
+}
+
+.right_header {
+	background: grey;
+	flex: 1;
+	display: flex;
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
+/* Style div-s inside right header */
+
+.left_container {
+	flex: 1;
+	display: flex;
+	align-items: center; 
+}
+
+.right_container {
+	width: 12vw;
+}
+
+/* Style main part */
+
+.main { 
+	display: flex; 
+	min-height: calc(100vh - 50px);
+}
+
+nav {
+	flex: 0 0 11vw;
+	background: black;
 	display: flex;
 	flex-direction: column;
-	top: 50px;
-	bottom: 0;
-	left: 0;
-	width: 210px;
-	background: black;
-	overflow-x: hidden;
-	flex: 1;
 }
 
 .content {
-	position: fixed;
+	background: linear-gradient(90deg, #d53369 0%, #daae51 100%);
+	flex: 1;
+	/* display: flex; */
+	/* flex-direction: column; */
+}
+
+/* Style nav items */
+
+.menuItemContainer { 
 	display: flex;
-	flex-direction: column;
-	top: 50px;
-	bottom: 0;
-	right: 0;
-	left: 210px;
-	background: green;
-	overflow-x: hidden;
+	align-items: center;
 	flex: 1;
 }
 
 .menuItem { 
-	display: flex; 
-	align-items: center; 
 	flex: 1;
+}
+
+.menuItemRemove { 
+	position: absolute;
+	left: 160px;
+}
+
+.addProjectBtn { 
+	padding: 0 40px;
 }

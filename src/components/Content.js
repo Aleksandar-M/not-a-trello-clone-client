@@ -1,9 +1,13 @@
 import React from 'react';
 import styles from './Styles.module.css';
+import Tab from './Tab';
 
 const Content = (props) => (
 	<div className={styles.content}>
-		<p>content deo</p>
+		<Tab />
+		<Tab />
+		<Tab />
+		<Tab />
 	</div>
 );
 

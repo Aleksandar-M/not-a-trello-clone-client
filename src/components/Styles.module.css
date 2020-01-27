@@ -51,8 +51,12 @@ nav {
 .content {
 	background: linear-gradient(90deg, #d53369 0%, #daae51 100%);
 	flex: 1;
-	/* display: flex; */
-	/* flex-direction: column; */
+	padding: 10px 15px 5px 15px;
+
+	display: flex;
+	flex-direction: row;
+
+	overflow: auto;
 }
 
 /* Style nav items */
@@ -74,4 +78,43 @@ nav {
 
 .addProjectBtn { 
 	padding: 0 40px;
+}
+
+/* Style tab items */
+
+.tab {
+	background: cadetblue;
+	min-width: 300px;
+	max-width: 300px;
+	height: 92vh;
+	margin-right: 15px;
+	display: flex;
+	flex-direction: column;
+}
+
+.tabTitleContainer {
+	background: purple;
+	height: 40px;
+	padding: 10px;
+	display: flex;
+	flex-direction: row;
+}
+
+.tabTitle {
+	font-size: 23px;
+	color: white;
+}
+
+.tabTitleAlign {
+	flex: 1
+}
+
+.tabAciveNum {
+	font-size: 23px;
+	padding-right: 5px;
+	color: white;
+}
+
+.tabTimelineContainer {
+	overflow: auto;
 }

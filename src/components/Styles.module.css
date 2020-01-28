@@ -80,16 +80,24 @@ nav {
 	padding: 0 40px;
 }
 
+.addProjectInput { 
+	display: flex;
+	padding: 0 0;
+}
+
 /* Style tab items */
 
 .tab {
 	background: cadetblue;
-	min-width: 300px;
-	max-width: 300px;
+	min-width: 320px;
+	max-width: 320px;
 	height: 92vh;
 	margin-right: 15px;
 	display: flex;
 	flex-direction: column;
+
+	border-radius: 10px 25px 0 40px;
+	box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
 }
 
 .tabTitleContainer {
@@ -98,6 +106,8 @@ nav {
 	padding: 10px;
 	display: flex;
 	flex-direction: row;
+
+	border-radius: 10px 25px 0 0;
 }
 
 .tabTitle {
@@ -117,4 +127,5 @@ nav {
 
 .tabTimelineContainer {
 	overflow: auto;
+	border-radius: 0 0 0 40px;
 }

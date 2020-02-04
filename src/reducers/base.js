@@ -8,12 +8,22 @@ export const projectsAction = () => async (dispatch) => {
 	});
 };
 
-const reducer = (state = { projects: [], users: [] }, action) => {
+export const activeProjectAction = (projectId) => ({
+	type: 'ACTIVE_PROJECT',
+	data: projectId,
+});
+
+const reducer = (state = { projects: [], activeProject: '', users: [] }, action) => {
 	switch (action.type) {
 	case 'PROJECTS':
 		return {
 			...state,
 			projects: action.data,
+		};
+	case 'ACTIVE_PROJECT':
+		return {
+			...state,
+			activeProject: action.data,
 		};
 	default:
 		return state;

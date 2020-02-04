@@ -4,7 +4,8 @@ import {
 } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import styles from './Styles.module.css';
-import { projectsAction } from '../reducers/base';
+import { projectsAction, activeProjectAction } from '../reducers/base';
+import projectsServices from '../services/projects';
 
 // Custom hook for handling adding project input
 const useOutsideClick = (ref, callback) => {
@@ -24,13 +25,15 @@ const useOutsideClick = (ref, callback) => {
 };
 
 const Projects = (props) => {
-	const { projects, getProjectsNames } = props;
+	const { projects, getProjectsNames, activeProject } = props;
 
 	const [activeItem, setActiveItem] = useState('messages');
 
 	const [showProjectInput, setShowProjectInput] = useState(false);
 	const [inputValue, setInputValue] = useState('');
 	const ref = useRef();
+
+	const [fetchAgain, setFetchAgain] = useState(true);
 
 	useOutsideClick(ref, () => {
 		if (showProjectInput) {
@@ -41,9 +44,35 @@ const Projects = (props) => {
 
 	useEffect(() => {
 		getProjectsNames();
-	}, [getProjectsNames]);
+		setFetchAgain(false);
+	}, [getProjectsNames, fetchAgain]);
 
-	const handleItemClick = (e, { name }) => setActiveItem(name);
+	const handleItemClick = (projectId, projectName) => {
+		setActiveItem(projectName);
+		console.log(projectName, projectId);
+
+		activeProject(projectId);
+	};
+
+	const handleCreateProject = () => {
+		// Send POST request
+		projectsServices.addNewProject(inputValue);
+
+		// Remove project input field
+		setShowProjectInput(false);
+		setInputValue('');
+
+		// Render again, trigger useEffect
+		setFetchAgain(true);
+	};
+
+	const handleRemoveProject = (projectId) => {
+		console.log('remove', projectId);
+		projectsServices.removeProject(projectId);
+
+		// Render again, trigger useEffect
+		setFetchAgain(true);
+	};
 
 	return (
 		<nav>
@@ -55,11 +84,17 @@ const Projects = (props) => {
 								name={el.name}
 								active={activeItem === el.name}
 								key={el._id}
-								onClick={handleItemClick}
+								onClick={() => handleItemClick(el._id, el.name)}
 							/>
 						</div>
 						<div className={styles.menuItemRemove}>
-							<Button animated="fade" circular color="red" size="small">
+							<Button
+								animated="fade"
+								circular
+								color="red"
+								size="small"
+								onClick={() => handleRemoveProject(el._id)}
+							>
 								<Button.Content visible>
 								</Button.Content>
 								<Button.Content hidden>
@@ -85,6 +120,7 @@ const Projects = (props) => {
 							size="tiny"
 							inverted
 							color="violet"
+							onClick={handleCreateProject}
 						>
 							Add
 						</Button>
@@ -107,12 +143,17 @@ const Projects = (props) => {
 	);
 };
 
-const mapStateToProps = (state) => ({
-	projects: state.projects,
-});
+const mapStateToProps = (state) => {
+	console.log(state);
+	return {
+		projects: state.projects,
+		activeProject: state.activeProject,
+	};
+};
 
 const mapDispatchToProps = {
 	getProjectsNames: projectsAction,
+	activeProject: activeProjectAction,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Projects);

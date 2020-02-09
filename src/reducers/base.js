@@ -13,7 +13,28 @@ export const activeProjectAction = (projectId) => ({
 	data: projectId,
 });
 
-const reducer = (state = { projects: [], activeProject: '', users: [] }, action) => {
+export const projectDetailsAction = (projectId) => async (dispatch) => {
+	console.log('id from action', projectId);
+	const res = await projects.projectDetails(projectId);
+	console.log('res from action', res);
+	dispatch({
+		type: 'PROJECT_DETAILS',
+		data: res.data.data.result,
+	});
+};
+
+export const tabsAction = (projectId) => async (dispatch) => {
+	const res = await projects.allTabs(projectId);
+	console.log('res from tabs action', res);
+	dispatch({
+		type: 'ALL_TABS',
+		data: res.data.data.result,
+	});
+};
+
+const reducer = (state = {
+	projects: [], projectDetails: [], activeProject: '', allTabs: [], users: [],
+}, action) => {
 	switch (action.type) {
 	case 'PROJECTS':
 		return {
@@ -24,6 +45,16 @@ const reducer = (state = { projects: [], activeProject: '', users: [] }, action)
 		return {
 			...state,
 			activeProject: action.data,
+		};
+	case 'PROJECT_DETAILS':
+		return {
+			...state,
+			projectDetails: action.data,
+		};
+	case 'ALL_TABS':
+		return {
+			...state,
+			allTabs: action.data,
 		};
 	default:
 		return state;

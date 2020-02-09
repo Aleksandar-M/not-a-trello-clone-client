@@ -10,6 +10,7 @@ import {
 	TextEvent,
 	YouTubeEvent,
 } from '@merc/react-timeline';
+import { connect } from 'react-redux';
 import styles from './Styles.module.css';
 
 const customTheme = createTheme(themes.roli, {
@@ -30,16 +31,36 @@ const customTheme = createTheme(themes.roli, {
 
 
 const Tab = (props) => {
-	const events = [
-		{ ts: '2017-09-17T12:22:46.587Z', text: 'Logged in' },
-	];
+	const { projectDetails, currentTabIndex, tabName } = props;
+	const tab = projectDetails[currentTabIndex];
+	console.log('props curent tab', tabName, currentTabIndex, projectDetails[currentTabIndex]);
+
+	// Function for getting date without time value
+	const stringToDate = (dateVal) => {
+		const newDate = new Date(dateVal);
+		return newDate.toDateString();
+	};
+
+	// Calculate days between to dates
+	const daysBetween = (firstDate, secondDate) => {
+		const newFirst = new Date(firstDate);
+		const newSecond = new Date(secondDate);
+
+		const days = Math.floor((newSecond - newFirst) / (24 * 60 * 60 * 1000));
+
+		return days.toString();
+	};
+
+	// Condition for rendering dots or number of days
+	const renderDots = (index, el) => (index < tab.length - 1)
+				&& daysBetween(el.deadlineDate, tab[index + 1].deadlineDate) <= 7;
 
 	return (
 		<div className={styles.tab}>
 			<div className={styles.tabTitleContainer}>
-				<div className={styles.tabTitle}>Tabnaslov</div>
+				<div className={styles.tabTitle}>{tabName}</div>
 				<div className={styles.tabTitleAlign} />
-				<div className={styles.tabAciveNum}>5</div>
+				<div className={styles.tabAciveNum}>{tab.length}</div>
 				<div className={styles.tabTitleAddCardBtn}>
 					<Button animated="fade" circular color="yellow" size="small">
 						<Button.Content visible>
@@ -51,56 +72,55 @@ const Tab = (props) => {
 				</div>
 			</div>
 			<div className={styles.tabTimelineContainer}>
-				<Timeline theme={themes.roli} opts={{ layout: 'inline-evts-inline-date' }}>
-					<Events>
-						<TextEvent date="1/1/19" text="**Markdown** is *supported*" />
+				{ tab.map((el, index) => (
+					<div>
+						<Timeline theme={themes.roli} opts={{ layout: 'inline-evts-inline-date' }}>
+							<Events>
+								<TextEvent
+									date={stringToDate(el.deadlineDate)}
+									text={el.description}
+								/>
+							</Events>
+						</Timeline>
+						<Timeline theme={customTheme} opts={{ layout: 'inline-evts-inline-date' }}>
+							<Events>
+								{ renderDots(index, el)
+									? [...Array(parseInt(
+										daysBetween(el.deadlineDate,
+											tab[index + 1].deadlineDate), 10,
+									))].map((el) => (
+										<TextEvent
+											date=""
+											text=""
+										/>
+									))
 
-						<TextEvent
-							date="1/1/19"
-							text="Events alternate by default (given enough space in the browser)"
-						/>
-					</Events>
-				</Timeline>
-				<Timeline theme={customTheme} opts={{ layout: 'inline-evts-inline-date' }}>
-					<Events>
-						<TextEvent
-							date=""
-							text=""
-						/>
-						<TextEvent
-							date=""
-							text=""
-						/>
-
-						<YouTubeEvent
-							date="6/18/19"
-							id="6UnRHtwHGSE"
-							name="General Tso's Chicken recipe"
-							text="... and YouTube videos!"
-						/>
-					</Events>
-				</Timeline>
-				<Timeline theme={themes.roli} opts={{ layout: 'inline-evts-inline-date' }}>
-					<Events>
-						<TextEvent date="1/1/19" text="**Markdown** is *supported*" />
-
-						<TextEvent
-							date="1/1/19"
-							text="Events alternate by default (given enough space in the browser)"
-						/>
-						<TextEvent
-							date="1/1/19"
-							text="Events alternate by default (given enough space in the browser)"
-						/>
-						<TextEvent
-							date=""
-							text=""
-						/>
-					</Events>
-				</Timeline>
+									: (
+										<div>
+											{(index < tab.length - 1)
+											&& (
+												<TextEvent
+													text={daysBetween(el.deadlineDate, tab[index + 1].deadlineDate)}
+													date=""
+												/>
+											)}
+										</div>
+									)}
+							</Events>
+						</Timeline>
+					</div>
+				))}
 			</div>
 		</div>
 	);
 };
 
-export default Tab;
+const mapStateToProps = (state) => {
+	console.log('state from tab', state);
+	return {
+		activeProject: state.activeProject,
+		projectDetails: state.projectDetails,
+	};
+};
+
+export default connect(mapStateToProps)(Tab);

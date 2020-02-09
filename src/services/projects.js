@@ -32,8 +32,30 @@ const removeProject = async (projectId) => {
 	}
 };
 
+const projectDetails = async (projectId) => {
+	try {
+		const result = await axios.get(`${baseUrl}/${projectId}/cards/`);
+		console.log('result from axios', result);
+		return result;
+	} catch (err) {
+		console.log(err);
+	}
+};
+
+const allTabs = async (projectId) => {
+	try {
+		const result = await axios.get('http://localhost:8000/api/tabs');
+		console.log('result from axios', result);
+		return result;
+	} catch (err) {
+		console.log(err);
+	}
+};
+
 export default {
 	allProjectsNames,
 	addNewProject,
 	removeProject,
+	projectDetails,
+	allTabs,
 };

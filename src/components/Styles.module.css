@@ -88,7 +88,7 @@ nav {
 /* Style tab items */
 
 .tab {
-	background: cadetblue;
+	background: #0C1734;
 	min-width: 320px;
 	max-width: 320px;
 	height: 92vh;
@@ -96,7 +96,7 @@ nav {
 	display: flex;
 	flex-direction: column;
 
-	border-radius: 10px 25px 0 40px;
+	border-radius: 10px 25px 0 0px;
 	box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
 }
 
@@ -127,5 +127,5 @@ nav {
 
 .tabTimelineContainer {
 	overflow: auto;
-	border-radius: 0 0 0 40px;
+	/* border-radius: 0 0 0 40px; */
 }

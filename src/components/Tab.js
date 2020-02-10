@@ -88,7 +88,7 @@ const Tab = (props) => {
 									? [...Array(parseInt(
 										daysBetween(el.deadlineDate,
 											tab[index + 1].deadlineDate), 10,
-									))].map((el) => (
+									))].map(() => (
 										<TextEvent
 											date=""
 											text=""
@@ -100,7 +100,7 @@ const Tab = (props) => {
 											{(index < tab.length - 1)
 											&& (
 												<TextEvent
-													text={daysBetween(el.deadlineDate, tab[index + 1].deadlineDate)}
+													text={`${daysBetween(el.deadlineDate, tab[index + 1].deadlineDate)} days`}
 													date=""
 												/>
 											)}

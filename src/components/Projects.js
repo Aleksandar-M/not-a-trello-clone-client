@@ -6,23 +6,7 @@ import { connect } from 'react-redux';
 import styles from './Styles.module.css';
 import { projectsAction, activeProjectAction } from '../reducers/base';
 import projectsServices from '../services/projects';
-
-// Custom hook for handling adding project input
-const useOutsideClick = (ref, callback) => {
-	const handleClick = (e) => {
-		if (ref.current && !ref.current.contains(e.target)) {
-			callback();
-		}
-	};
-
-	useEffect(() => {
-		document.addEventListener('click', handleClick);
-
-		return () => {
-			document.removeEventListener('click', handleClick);
-		};
-	});
-};
+import useOutsideClick from '../hooks/index';
 
 const Projects = (props) => {
 	const { projects, getProjectsNames, activeProject } = props;
@@ -105,10 +89,12 @@ const Projects = (props) => {
 					</div>
 				))}
 			</Menu>
+
 			{ showProjectInput
 				? (
-					<div ref={ref} className={styles.addProjectInput}>
+					<div className={styles.addProjectInput}>
 						<input
+							ref={ref}
 							type="text"
 							style={{ width: '150px' }}
 							value={inputValue}

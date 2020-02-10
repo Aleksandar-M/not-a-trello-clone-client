@@ -52,10 +52,21 @@ const allTabs = async (projectId) => {
 	}
 };
 
+const addNewTab = async (project, newTab) => {
+	try {
+		const result = await axios.post(`${baseUrl}/${project}/tabs`, { name: newTab });
+		console.log(result.data);
+		return result.data;
+	} catch (err) {
+		console.log(err);
+	}
+};
+
 export default {
 	allProjectsNames,
 	addNewProject,
 	removeProject,
 	projectDetails,
 	allTabs,
+	addNewTab,
 };

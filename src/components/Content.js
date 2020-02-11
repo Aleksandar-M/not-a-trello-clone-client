@@ -57,6 +57,8 @@ const Content = (props) => {
 			&& projectDetails.map((el, index) => (
 				<Tab
 					key={projectTabs[index]._id}
+					tabId={projectTabs[index]._id}
+					setFetchAgain={setFetchAgain}
 					tabName={projectTabs[index].name}
 					currentTabIndex={index}
 				/>

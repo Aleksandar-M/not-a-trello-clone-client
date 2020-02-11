@@ -11,6 +11,10 @@ const useOutsideClick = (ref, callback) => {
 	useEffect(() => {
 		document.addEventListener('click', handleClick);
 
+		if (ref.current) {
+			ref.current.focus();
+		}
+
 		return () => {
 			document.removeEventListener('click', handleClick);
 		};

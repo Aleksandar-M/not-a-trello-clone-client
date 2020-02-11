@@ -62,6 +62,16 @@ const addNewTab = async (project, newTab) => {
 	}
 };
 
+const addNewCard = async (projectId, tabId, card) => {
+	try {
+		const result = await axios.post(`${baseUrl}/${projectId}/tabs/${tabId}/cards`, card);
+		console.log(result.data);
+		return result.data;
+	} catch (err) {
+		console.log(err);
+	}
+};
+
 export default {
 	allProjectsNames,
 	addNewProject,
@@ -69,4 +79,5 @@ export default {
 	projectDetails,
 	allTabs,
 	addNewTab,
+	addNewCard,
 };

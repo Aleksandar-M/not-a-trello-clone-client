@@ -33,7 +33,7 @@ export const tabsAction = (projectId) => async (dispatch) => {
 };
 
 const reducer = (state = {
-	projects: [], projectDetails: [], activeProject: '', allTabs: [], users: [],
+	projects: [], projectDetails: [], isLoading: true, activeProject: '', allTabs: [], users: [],
 }, action) => {
 	switch (action.type) {
 	case 'PROJECTS':
@@ -45,11 +45,13 @@ const reducer = (state = {
 		return {
 			...state,
 			activeProject: action.data,
+			isLoading: true,
 		};
 	case 'PROJECT_DETAILS':
 		return {
 			...state,
 			projectDetails: action.data,
+			isLoading: false,
 		};
 	case 'ALL_TABS':
 		return {

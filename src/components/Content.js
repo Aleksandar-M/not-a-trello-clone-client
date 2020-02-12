@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { connect } from 'react-redux';
 import {
-	Button,
+	Button, Loader,
 } from 'semantic-ui-react';
 import styles from './Styles.module.css';
 import Tab from './Tab';
@@ -12,8 +12,9 @@ import projectsServices from '../services/projects';
 
 const Content = (props) => {
 	const {
-		activeProject, projectDetails, getProjectDetails, getTabs, allTabs,
+		activeProject, projectDetails, getProjectDetails, loading, getTabs, allTabs,
 	} = props;
+
 	const projectTabs = allTabs.filter((el) => el.project === activeProject);
 	console.log('project tabs', projectTabs);
 
@@ -53,18 +54,22 @@ const Content = (props) => {
 	return (
 		<div className={styles.content}>
 			{activeProject
-			&& projectTabs
-			&& projectDetails.map((el, index) => (
-				<Tab
-					key={projectTabs[index]._id}
-					tabId={projectTabs[index]._id}
-					setFetchAgain={setFetchAgain}
-					tabName={projectTabs[index].name}
-					currentTabIndex={index}
-				/>
-			))}
+			&& loading
+				? <Loader active size="massive" inverted />
+				: activeProject
+				&& projectTabs
+				&& projectDetails.map((el, index) => (
+					<Tab
+						key={projectTabs[index]._id}
+						tabId={projectTabs[index]._id}
+						setFetchAgain={setFetchAgain}
+						tabName={projectTabs[index].name}
+						currentTabIndex={index}
+					/>
+				))}
 
-			{ activeProject
+			{activeProject
+			&& !loading
 			&& (showTabInput
 				? (
 					<div>
@@ -110,6 +115,7 @@ const mapStateToProps = (state) => {
 		activeProject: state.activeProject,
 		projectDetails: state.projectDetails,
 		allTabs: state.allTabs,
+		loading: state.isLoading,
 	};
 };
 

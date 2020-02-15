@@ -2,17 +2,17 @@ import React, { useState } from 'react';
 import {
 	Button, Form,
 } from 'semantic-ui-react';
+import { Link, Redirect, useHistory } from 'react-router-dom';
 import signInStyles from './SignIn.module.css';
 import SignUp from './SignUp';
 
 const SignIn = () => {
-	const [signUp, setSignUp] = useState(false);
+	const history = useHistory();
 
-	if (signUp) {
-		return (
-			<SignUp setSignUp={setSignUp} />
-		);
-	}
+	const handleSignIn = () => {
+		history.push('/workspace');
+	};
+
 
 	return (
 		<div className={signInStyles.formContainer}>
@@ -44,17 +44,18 @@ const SignIn = () => {
 				circular
 				size="large"
 				content="SIGN IN"
+				onClick={handleSignIn}
 			/>
 			<div className={signInStyles.bottomText}>
 				Don't have account?
 				{' '}
-				<Button
-					size="tiny"
-					inverted
-					onClick={() => setSignUp(true)}
+				<Link
+					to="/signup"
+					style={{ color: 'white' }}
 				>
-					Create new
-				</Button>
+					Sign up
+				</Link>
+
 
 			</div>
 		</div>

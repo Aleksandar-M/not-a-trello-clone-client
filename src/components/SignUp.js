@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import {
 	Button, Input, Form, Grid,
 } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
 import signInStyles from './SignIn.module.css';
 
 const SignUp = (props) => {
@@ -48,16 +49,15 @@ const SignUp = (props) => {
 				content="SIGN UP"
 			/>
 
-			<div style={{ position: 'absolute', bottom: '20px' }}>
+			<div className={signInStyles.bottomText}>
 				Have account?
 				{' '}
-				<Button
-					size="tiny"
-					inverted
-					onClick={() => setSignUp(false)}
+				<Link
+					to="/"
+					style={{ color: 'white' }}
 				>
 					Sign in
-				</Button>
+				</Link>
 
 			</div>
 		</div>

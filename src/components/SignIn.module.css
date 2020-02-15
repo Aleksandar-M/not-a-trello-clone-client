@@ -24,4 +24,5 @@
 .bottomText { 
 	position: absolute; 
 	bottom: 20px;
+	font-size: 16px;
 }

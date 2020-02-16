@@ -185,8 +185,8 @@ const Tab = (props) => {
 const mapStateToProps = (state) => {
 	console.log('state from tab', state);
 	return {
-		activeProject: state.activeProject,
-		projectDetails: state.projectDetails,
+		activeProject: state.base.activeProject,
+		projectDetails: state.base.projectDetails,
 	};
 };
 

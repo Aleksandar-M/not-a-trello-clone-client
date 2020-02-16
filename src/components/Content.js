@@ -112,10 +112,10 @@ const Content = (props) => {
 const mapStateToProps = (state) => {
 	console.log('state from content', state);
 	return {
-		activeProject: state.activeProject,
-		projectDetails: state.projectDetails,
-		allTabs: state.allTabs,
-		loading: state.isLoading,
+		activeProject: state.base.activeProject,
+		projectDetails: state.base.projectDetails,
+		allTabs: state.base.allTabs,
+		loading: state.base.isLoading,
 	};
 };
 

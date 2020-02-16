@@ -1,7 +1,7 @@
-import projects from '../services/projects';
+import projectServices from '../services/projects';
 
 export const projectsAction = () => async (dispatch) => {
-	const res = await projects.allProjectsNames();
+	const res = await projectServices.allProjectsNames();
 	dispatch({
 		type: 'PROJECTS',
 		data: res.data.data.result,
@@ -15,7 +15,7 @@ export const activeProjectAction = (projectId) => ({
 
 export const projectDetailsAction = (projectId) => async (dispatch) => {
 	console.log('id from action', projectId);
-	const res = await projects.projectDetails(projectId);
+	const res = await projectServices.projectDetails(projectId);
 	console.log('res from action', res);
 	dispatch({
 		type: 'PROJECT_DETAILS',
@@ -24,7 +24,7 @@ export const projectDetailsAction = (projectId) => async (dispatch) => {
 };
 
 export const tabsAction = (projectId) => async (dispatch) => {
-	const res = await projects.allTabs(projectId);
+	const res = await projectServices.allTabs(projectId);
 	console.log('res from tabs action', res);
 	dispatch({
 		type: 'ALL_TABS',
@@ -33,7 +33,7 @@ export const tabsAction = (projectId) => async (dispatch) => {
 };
 
 const reducer = (state = {
-	projects: [], projectDetails: [], isLoading: true, activeProject: '', allTabs: [], users: [],
+	projects: [], projectDetails: [], isLoading: true, activeProject: '', allTabs: [],
 }, action) => {
 	switch (action.type) {
 	case 'PROJECTS':

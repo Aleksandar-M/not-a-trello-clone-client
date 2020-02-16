@@ -1,21 +1,29 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
 	List, Image, Button, Dropdown, Icon,
 } from 'semantic-ui-react';
+import { useHistory } from 'react-router-dom';
+import { connect } from 'react-redux';
 import styles from './Styles.module.css';
+import { signOutAction } from '../reducers/user';
 
 const Header = (props) => {
+	const { signOut, currentUser } = props;
+	const history = useHistory();
+
 	const options = [
 		{ key: 'user', text: 'Account', icon: 'user' },
 		{ key: 'settings', text: 'Settings', icon: 'settings' },
-		{ key: 'sign-out', text: 'Sign Out', icon: 'sign out' },
+		{
+			key: 'sign-out', text: 'Sign Out', icon: 'sign out', onClick: () => signOut(history),
+		},
 	];
 
+	// TODO: use redux-perist middleware to persist redux state, currentUser after refresh is {}
 	const trigger = (
 		<span>
 			<Icon name="user" />
-			{' '}
-			Hello, Bob
+			{currentUser}
 		</span>
 	);
 
@@ -59,4 +67,12 @@ const Header = (props) => {
 	);
 };
 
-export default Header;
+const mapStateToProps = (state) => ({
+	currentUser: state.users.currentUser.email,
+});
+
+const mapDispatchToProps = {
+	signOut: signOutAction,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

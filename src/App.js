@@ -18,24 +18,18 @@ function App() {
 			<Route
 				exact
 				path="/workspace"
-				render={() => (
-					<div>
-						<Header />
-						<div className={styles.main}>
-							<Projects />
-							<Content />
+				render={() => (localStorage.getItem('currentUser')
+					? (
+						<div>
+							<Header />
+							<div className={styles.main}>
+								<Projects />
+								<Content />
+							</div>
 						</div>
-					</div>
-				)}
-			/>
-
-			{/* <Route
-				exact
-				path="/workspace"
-				render={() => (sign === true
-					? <Redirect to="/workspace" />
+					)
 					: <Redirect to="/" />)}
-			/> */}
+			/>
 		</BrowserRouter>
 
 	);

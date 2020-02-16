@@ -132,8 +132,8 @@ const Projects = (props) => {
 const mapStateToProps = (state) => {
 	console.log(state);
 	return {
-		projects: state.projects,
-		activeProject: state.activeProject,
+		projects: state.base.projects,
+		activeProject: state.base.activeProject,
 	};
 };
 

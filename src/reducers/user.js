@@ -41,6 +41,20 @@ export const signUpAction = (email, password, history) => async (dispatch) => {
 	}
 };
 
+export const allUsersAction = () => async (dispatch) => {
+	try {
+		const res = await userServices.allUsers();
+		console.log('all users action', res);
+
+		dispatch({
+			type: 'ALL_USERS',
+			data: res.data.data.result,
+		});
+	} catch (err) {
+		console.log(err);
+	}
+};
+
 const reducer = (state = { currentUser: {}, isLoggedIn: false, users: [] }, action) => {
 	switch (action.type) {
 	case 'SIGNIN':
@@ -58,6 +72,10 @@ const reducer = (state = { currentUser: {}, isLoggedIn: false, users: [] }, acti
 		...state,
 		isLoggedIn: false,
 		currentUser: {},
+	};
+	case 'ALL_USERS': return {
+		...state,
+		users: action.data,
 	};
 	default:
 		return state;

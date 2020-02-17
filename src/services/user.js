@@ -32,8 +32,20 @@ const signOut = () => {
 	localStorage.removeItem('currentUser');
 };
 
+const allUsers = async () => {
+	try {
+		const result = await axios.get(`${baseUrl}`);
+		console.log(result);
+
+		return result;
+	} catch (err) {
+		console.log(err);
+	}
+};
+
 export default {
 	signIn,
 	signOut,
 	signUp,
+	allUsers,
 };

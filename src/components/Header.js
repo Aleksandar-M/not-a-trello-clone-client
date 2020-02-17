@@ -5,10 +5,12 @@ import {
 import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import styles from './Styles.module.css';
-import { signOutAction } from '../reducers/user';
+import { signOutAction, allUsersAction } from '../reducers/user';
 
 const Header = (props) => {
-	const { signOut, currentUser } = props;
+	const {
+		signOut, currentUser, users, allUsers, activeProject,
+	} = props;
 	const history = useHistory();
 
 	const options = [
@@ -19,16 +21,21 @@ const Header = (props) => {
 		},
 	];
 
-	// useEffect(() => {
-	// 	getAllusers for that project
-	// 	getcurrentuser
-	// });
+	const user = JSON.parse(localStorage.getItem('currentUser')).email;
 
-	// TODO: use redux-perist middleware to persist redux state, currentUser after refresh is {}
+	const usersOnProject = activeProject
+							&& users
+								.filter((el) => el.assignedToProjects.includes(activeProject))
+								.map((el) => el.email);
+
+	useEffect(() => {
+		allUsers();
+	}, []);
+
 	const trigger = (
 		<span>
 			<Icon name="user" />
-			{currentUser}
+			{user}
 		</span>
 	);
 
@@ -36,31 +43,16 @@ const Header = (props) => {
 		<header className={styles.header}>
 			<div className={styles.left_header}>levo</div>
 			<div className={styles.right_header}>
+				<Icon name="users" size="big" style={{ paddingTop: '5px' }} />
 				<div className={styles.left_container}>
-					<List divided horizontal size="tiny">
-						<List.Item>
-							<Image avatar src="/images/avatar/small/tom.jpg" />
-							<List.Content>
-								<List.Header>Tom</List.Header>
-							</List.Content>
-						</List.Item>
-						<List.Item>
-							<Image avatar src="/images/avatar/small/christian.jpg" />
-							<List.Content>
-								<List.Header>Christian Rocha</List.Header>
-							</List.Content>
-						</List.Item>
-						<List.Item>
-							<Image avatar src="/images/avatar/small/matt.jpg" />
-							<List.Content>
-								<List.Header>Matt</List.Header>
-							</List.Content>
-						</List.Item>
-						<List.Item>
-							<Button circular compact color="green" size="small">
-								Add user
-							</Button>
-						</List.Item>
+
+					<List divided horizontal size="big">
+						{usersOnProject
+							&& usersOnProject.map((el) => (
+								<List.Item>
+									<List.Header>{el.split('@')[0]}</List.Header>
+								</List.Item>
+							))}
 					</List>
 				</div>
 				<div className={styles.right_container}>
@@ -74,10 +66,13 @@ const Header = (props) => {
 
 const mapStateToProps = (state) => ({
 	currentUser: state.users.currentUser.email,
+	users: state.users.users,
+	activeProject: state.base.activeProject,
 });
 
 const mapDispatchToProps = {
 	signOut: signOutAction,
+	allUsers: allUsersAction,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

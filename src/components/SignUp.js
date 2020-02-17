@@ -1,12 +1,27 @@
 import React, { useState } from 'react';
 import {
-	Button, Input, Form, Grid,
+	Button, Form,
 } from 'semantic-ui-react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
+import { connect } from 'react-redux';
 import signInStyles from './SignIn.module.css';
+import { signUpAction } from '../reducers/user';
 
 const SignUp = (props) => {
-	const { setSignUp } = props;
+	const { signUp } = props;
+	const history = useHistory();
+
+	const [email, setEmail] = useState('');
+	const [pass, setPass] = useState('');
+	const [repeatPass, setRepeatPass] = useState('');
+
+	const handleSignUp = () => {
+		if (email && pass === repeatPass) {
+			signUp(email, pass, history);
+		} else {
+			console.log('Error: passwords must match!');
+		}
+	};
 
 	return (
 		<div className={signInStyles.formContainer}>
@@ -19,7 +34,7 @@ const SignUp = (props) => {
 					fluid
 					placeholder="Email adress"
 					type="Email"
-				// onChange={({ target }) => setDescription(target.value)}
+					onChange={({ target }) => setEmail(target.value)}
 				/>
 				<Form.Input
 					icon="lock"
@@ -28,7 +43,7 @@ const SignUp = (props) => {
 					fluid
 					placeholder="Password"
 					type="Password"
-				// onChange={({ target }) => setDate(target.value)}
+					onChange={({ target }) => setPass(target.value)}
 				/>
 				<Form.Input
 					icon="lock"
@@ -37,7 +52,7 @@ const SignUp = (props) => {
 					fluid
 					placeholder="Repeat password"
 					type="Password"
-				// onChange={({ target }) => setDate(target.value)}
+					onChange={({ target }) => setRepeatPass(target.value)}
 				/>
 			</Form>
 
@@ -47,6 +62,7 @@ const SignUp = (props) => {
 				circular
 				size="large"
 				content="SIGN UP"
+				onClick={handleSignUp}
 			/>
 
 			<div className={signInStyles.bottomText}>
@@ -64,4 +80,8 @@ const SignUp = (props) => {
 	);
 };
 
-export default SignUp;
+const mapDispatchToProps = {
+	signUp: signUpAction,
+};
+
+export default connect(null, mapDispatchToProps)(SignUp);

@@ -26,6 +26,21 @@ export const signOutAction = (history) => {
 	};
 };
 
+export const signUpAction = (email, password, history) => async (dispatch) => {
+	try {
+		const res = await userServices.signUp(email, password);
+		console.log(res);
+		dispatch({
+			type: 'SIGNUP',
+		});
+
+		// Redirect to sign in page
+		history.push('/');
+	} catch (err) {
+		console.log(err);
+	}
+};
+
 const reducer = (state = { currentUser: {}, isLoggedIn: false, users: [] }, action) => {
 	switch (action.type) {
 	case 'SIGNIN':
@@ -38,6 +53,11 @@ const reducer = (state = { currentUser: {}, isLoggedIn: false, users: [] }, acti
 		...state,
 		currentUser: {},
 		isLoggedIn: false,
+	};
+	case 'SIGNUP': return {
+		...state,
+		isLoggedIn: false,
+		currentUser: {},
 	};
 	default:
 		return state;

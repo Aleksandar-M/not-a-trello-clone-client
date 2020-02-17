@@ -17,6 +17,17 @@ const signIn = async (email, password) => {
 	}
 };
 
+const signUp = async (email, password) => {
+	try {
+		const result = await axios.post(`${baseUrl}/signup`, { email, password });
+		console.log(result);
+
+		return result;
+	} catch (err) {
+		console.log(err);
+	}
+};
+
 const signOut = () => {
 	localStorage.removeItem('currentUser');
 };
@@ -24,4 +35,5 @@ const signOut = () => {
 export default {
 	signIn,
 	signOut,
+	signUp,
 };

@@ -19,6 +19,11 @@ const Header = (props) => {
 		},
 	];
 
+	// useEffect(() => {
+	// 	getAllusers for that project
+	// 	getcurrentuser
+	// });
+
 	// TODO: use redux-perist middleware to persist redux state, currentUser after refresh is {}
 	const trigger = (
 		<span>

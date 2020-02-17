@@ -2,10 +2,9 @@ import React, { useState } from 'react';
 import {
 	Button, Form,
 } from 'semantic-ui-react';
-import { Link, Redirect, useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import signInStyles from './SignIn.module.css';
-import SignUp from './SignUp';
 import { signInAction } from '../reducers/user';
 
 const SignIn = (props) => {

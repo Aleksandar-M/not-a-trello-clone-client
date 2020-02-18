@@ -35,7 +35,7 @@ const customTheme = createTheme(themes.roli, {
 
 const Tab = (props) => {
 	const {
-		projectDetails, currentTabIndex, tabName, tabId, setFetchAgain, activeProject,
+		projectDetails, currentTabIndex, tabName, tabId, fetchAgain, setFetchAgain, activeProject,
 	} = props;
 	const tab = projectDetails[currentTabIndex];
 	console.log('props curent tab', tabName, tabId, currentTabIndex, projectDetails[currentTabIndex]);
@@ -72,11 +72,15 @@ const Tab = (props) => {
 	const [date, setDate] = useState('');
 
 	const handleForm = () => {
-		// Send POST request for adding new card
-		projectServices.addNewCard(activeProject, tabId, { description, deadlineDate: date });
+		// Send POST request and AFTER adding, change state to trigger useEffect
+		projectServices.addNewCard(
+			activeProject,
+			tabId,
+			{ description, deadlineDate: date },
+			fetchAgain,
+			setFetchAgain,
+		);
 
-		// Render again, trigger useEffect
-		setFetchAgain(true);
 		close();
 	};
 
@@ -140,7 +144,7 @@ const Tab = (props) => {
 
 			<div className={styles.tabTimelineContainer}>
 				{ tab.map((el, index) => (
-					<div>
+					<div key={el._id}>
 						<Timeline theme={themes.roli} opts={{ layout: 'inline-evts-inline-date' }}>
 							<Events>
 								<TextEvent

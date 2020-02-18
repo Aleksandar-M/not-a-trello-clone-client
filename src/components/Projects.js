@@ -40,8 +40,7 @@ const Projects = (props) => {
 	useEffect(() => {
 		allUsers();
 		getProjectsNames();
-		setFetchAgain(false);
-	}, [getProjectsNames, fetchAgain]);
+	}, [allUsers, getProjectsNames, fetchAgain]);
 
 	const handleItemClick = (projectId, projectName) => {
 		setActiveItem(projectName);
@@ -51,23 +50,17 @@ const Projects = (props) => {
 	};
 
 	const handleCreateProject = () => {
-		// Send POST request
-		projectsServices.addNewProject(inputValue);
+		// Send POST request and AFTER adding, change state to trigger useEffect
+		projectsServices.addNewProject(inputValue, fetchAgain, setFetchAgain);
 
 		// Remove project input field
 		setShowProjectInput(false);
 		setInputValue('');
-
-		// Render again, trigger useEffect
-		setFetchAgain(true);
 	};
 
 	const handleRemoveProject = (projectId) => {
-		console.log('remove', projectId);
-		projectsServices.removeProject(projectId);
-
-		// Render again, trigger useEffect
-		setFetchAgain(true);
+		// Send POST request and AFTER adding, change state to trigger useEffec
+		projectsServices.removeProject(projectId, fetchAgain, setFetchAgain);
 	};
 
 	return (

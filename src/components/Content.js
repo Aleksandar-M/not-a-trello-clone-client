@@ -35,20 +35,21 @@ const Content = (props) => {
 		if (activeProject) {
 			getProjectDetails(activeProject);
 			getTabs(activeProject);
-			setFetchAgain(false);
 		}
-	}, [activeProject, fetchAgain]);
+	}, [getProjectDetails, getTabs, activeProject, fetchAgain]);
 
 	const handleCreateTab = () => {
-		// Send POST request
-		projectsServices.addNewTab(activeProject, inputValue);
+		// Send POST request and AFTER adding, change state to trigger useEffect
+		projectsServices.addNewTab(
+			activeProject,
+			inputValue,
+			fetchAgain,
+			setFetchAgain,
+		);
 
 		// Remove tab input field
 		setShowTabInput(false);
 		setInputValue('');
-
-		// Render again, trigger useEffect
-		setFetchAgain(true);
 	};
 
 	return (
@@ -62,6 +63,7 @@ const Content = (props) => {
 					<Tab
 						key={projectTabs[index]._id}
 						tabId={projectTabs[index]._id}
+						fetchAgain={fetchAgain}
 						setFetchAgain={setFetchAgain}
 						tabName={projectTabs[index].name}
 						currentTabIndex={index}

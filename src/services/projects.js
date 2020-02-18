@@ -18,7 +18,7 @@ const allProjectsNames = async () => {
 	}
 };
 
-const addNewProject = async (newProject) => {
+const addNewProject = async (newProject, val, callback) => {
 	try {
 		const result = await axios({
 			method: 'POST',
@@ -27,14 +27,16 @@ const addNewProject = async (newProject) => {
 			data: { name: newProject },
 		});
 
-		console.log(result.data);
+		// Change fetchAgain state to trigger re-render
+		callback(!val);
+
 		return result.data;
 	} catch (err) {
 		console.log(err);
 	}
 };
 
-const removeProject = async (projectId) => {
+const removeProject = async (projectId, val, callback) => {
 	try {
 		const result = await axios({
 			method: 'DELETE',
@@ -42,7 +44,9 @@ const removeProject = async (projectId) => {
 			headers: authHeader(),
 		});
 
-		console.log(result);
+		// Change fetchAgain state to trigger re-render
+		callback(!val);
+
 		return result;
 	} catch (err) {
 		console.log(err);
@@ -79,7 +83,7 @@ const allTabs = async (projectId) => {
 	}
 };
 
-const addNewTab = async (project, newTab) => {
+const addNewTab = async (project, newTab, val, callback) => {
 	try {
 		const result = await axios({
 			method: 'POST',
@@ -88,14 +92,16 @@ const addNewTab = async (project, newTab) => {
 			data: { name: newTab },
 		});
 
-		console.log(result.data);
+		// Change fetchAgain state to trigger re-render
+		callback(!val);
+
 		return result.data;
 	} catch (err) {
 		console.log(err);
 	}
 };
 
-const addNewCard = async (projectId, tabId, card) => {
+const addNewCard = async (projectId, tabId, card, val, callback) => {
 	try {
 		const result = await axios({
 			method: 'POST',
@@ -104,7 +110,9 @@ const addNewCard = async (projectId, tabId, card) => {
 			data: card,
 		});
 
-		console.log(result.data);
+		// Change fetchAgain state to trigger re-render
+		callback(!val);
+
 		return result.data;
 	} catch (err) {
 		console.log(err);

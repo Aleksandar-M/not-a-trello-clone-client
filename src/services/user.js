@@ -1,4 +1,5 @@
 import axios from 'axios';
+import authHelper from '../utils/authHeader';
 
 const baseUrl = 'http://localhost:8000/api/users';
 
@@ -34,7 +35,12 @@ const signOut = () => {
 
 const allUsers = async () => {
 	try {
-		const result = await axios.get(`${baseUrl}`);
+		const result = await axios({
+			method: 'GET',
+			url: `${baseUrl}`,
+			headers: authHelper(),
+		});
+
 		console.log(result);
 
 		return result;

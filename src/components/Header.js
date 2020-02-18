@@ -53,6 +53,11 @@ const Header = (props) => {
 									<List.Header>{el.split('@')[0]}</List.Header>
 								</List.Item>
 							))}
+						<List.Item>
+							<Button circular compact color="green" size="small">
+								Add user
+							</Button>
+						</List.Item>
 					</List>
 				</div>
 				<div className={styles.right_container}>

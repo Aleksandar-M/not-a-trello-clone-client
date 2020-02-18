@@ -5,11 +5,15 @@ import {
 import { connect } from 'react-redux';
 import styles from './Styles.module.css';
 import { projectsAction, activeProjectAction } from '../reducers/base';
+import { allUsersAction } from '../reducers/user';
 import projectsServices from '../services/projects';
 import useOutsideClick from '../hooks/index';
 
+
 const Projects = (props) => {
-	const { projects, getProjectsNames, activeProject } = props;
+	const {
+		projects, getProjectsNames, activeProject, users, allUsers,
+	} = props;
 
 	const [activeItem, setActiveItem] = useState('messages');
 
@@ -19,6 +23,13 @@ const Projects = (props) => {
 
 	const [fetchAgain, setFetchAgain] = useState(true);
 
+	const user = JSON.parse(localStorage.getItem('currentUser')).email;
+
+	// Get current user details, take property assignedToProjects, get their details
+	const [userDetails] = user && users.filter((el) => el.email === user);
+	const userProjects = userDetails && userDetails.assignedToProjects;
+	const filteredProjects = userProjects && projects.filter((el) => userProjects.includes(el._id));
+
 	useOutsideClick(ref, () => {
 		if (showProjectInput) {
 			setShowProjectInput(false);
@@ -27,6 +38,7 @@ const Projects = (props) => {
 	});
 
 	useEffect(() => {
+		allUsers();
 		getProjectsNames();
 		setFetchAgain(false);
 	}, [getProjectsNames, fetchAgain]);
@@ -60,35 +72,39 @@ const Projects = (props) => {
 
 	return (
 		<nav>
-			<Menu color="black" inverted vertical>
-				{projects.map((el) => (
-					<div key={el._id} className={styles.menuItemContainer}>
-						<div className={styles.menuItem}>
-							<Menu.Item
-								name={el.name}
-								active={activeItem === el.name}
-								key={el._id}
-								onClick={() => handleItemClick(el._id, el.name)}
-							/>
-						</div>
-						<div className={styles.menuItemRemove}>
-							<Button
-								animated="fade"
-								circular
-								color="red"
-								size="small"
-								onClick={() => handleRemoveProject(el._id)}
-							>
-								<Button.Content visible>
-								</Button.Content>
-								<Button.Content hidden>
-									<Icon name="remove" />
-								</Button.Content>
-							</Button>
-						</div>
-					</div>
-				))}
-			</Menu>
+			{ filteredProjects
+				&& filteredProjects.length > 0
+				&& (
+					<Menu color="black" inverted vertical>
+						{filteredProjects.map((el) => (
+							<div key={el._id} className={styles.menuItemContainer}>
+								<div className={styles.menuItem}>
+									<Menu.Item
+										name={el.name}
+										active={activeItem === el.name}
+										key={el._id}
+										onClick={() => handleItemClick(el._id, el.name)}
+									/>
+								</div>
+								<div className={styles.menuItemRemove}>
+									<Button
+										animated="fade"
+										circular
+										color="red"
+										size="small"
+										onClick={() => handleRemoveProject(el._id)}
+									>
+										<Button.Content visible>
+										</Button.Content>
+										<Button.Content hidden>
+											<Icon name="remove" />
+										</Button.Content>
+									</Button>
+								</div>
+							</div>
+						))}
+					</Menu>
+				)			}
 
 			{ showProjectInput
 				? (
@@ -134,12 +150,14 @@ const mapStateToProps = (state) => {
 	return {
 		projects: state.base.projects,
 		activeProject: state.base.activeProject,
+		users: state.users.users,
 	};
 };
 
 const mapDispatchToProps = {
 	getProjectsNames: projectsAction,
 	activeProject: activeProjectAction,
+	allUsers: allUsersAction,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Projects);

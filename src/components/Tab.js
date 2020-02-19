@@ -1,16 +1,13 @@
 import React, { useState } from 'react';
 import {
-	Button, Icon, Modal, Header, Input, Form,
+	Button, Icon, Modal, Form,
 } from 'semantic-ui-react';
 import {
 	themes,
 	createTheme,
 	Timeline,
 	Events,
-	UrlButton,
-	ImageEvent,
 	TextEvent,
-	YouTubeEvent,
 } from '@merc/react-timeline';
 import { connect } from 'react-redux';
 import styles from './Styles.module.css';

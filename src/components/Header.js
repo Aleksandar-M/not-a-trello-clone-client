@@ -1,17 +1,20 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
-	List, Image, Button, Dropdown, Icon,
+	List, Button, Dropdown, Icon,
 } from 'semantic-ui-react';
 import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import styles from './Styles.module.css';
 import { signOutAction, allUsersAction } from '../reducers/user';
+import projectServices from '../services/projects';
 
 const Header = (props) => {
 	const {
-		signOut, currentUser, users, allUsers, activeProject,
+		signOut, users, allUsers, activeProject,
 	} = props;
 	const history = useHistory();
+
+	const [fetchAgain, setFetchAgain] = useState(true);
 
 	const options = [
 		{ key: 'user', text: 'Account', icon: 'user' },
@@ -23,14 +26,22 @@ const Header = (props) => {
 
 	const user = JSON.parse(localStorage.getItem('currentUser')).email;
 
-	const usersOnProject = activeProject
-							&& users
-								.filter((el) => el.assignedToProjects.includes(activeProject))
-								.map((el) => el.email);
+	// Splitting users on those currently working on project and others
+	const [usersOnProject,
+		usersNotOnProject] = activeProject
+								&& users.reduce((acc, el) => {
+									if (el.assignedToProjects.includes(activeProject)) {
+										acc[0].push(el);
+									} else {
+										acc[1].push(el);
+									}
+
+									return acc;
+								}, [[], []]);
 
 	useEffect(() => {
 		allUsers();
-	}, []);
+	}, [allUsers, fetchAgain]);
 
 	const trigger = (
 		<span>
@@ -39,26 +50,56 @@ const Header = (props) => {
 		</span>
 	);
 
+	const handleAddUser = (option) => {
+		if (activeProject && option) {
+			// Send PATCH request and AFTER update, change state to trigger useEffect
+			projectServices.addUserToProject(activeProject, option._id, fetchAgain, setFetchAgain);
+		}
+	};
+
 	return (
 		<header className={styles.header}>
 			<div className={styles.left_header}>levo</div>
 			<div className={styles.right_header}>
 				<Icon name="users" size="big" style={{ paddingTop: '5px' }} />
 				<div className={styles.left_container}>
+					{activeProject
+						? (
+							<List divided horizontal size="big">
+								{usersOnProject
+									&& usersOnProject.map((el) => (
+										<List.Item>
+											<List.Header>{el.email.split('@')[0]}</List.Header>
+										</List.Item>
+									))}
 
-					<List divided horizontal size="big">
-						{usersOnProject
-							&& usersOnProject.map((el) => (
 								<List.Item>
-									<List.Header>{el.split('@')[0]}</List.Header>
+									<Dropdown
+										text="Add user"
+										icon="add user"
+										floating
+										labeled
+										button
+										className="icon"
+									>
+										<Dropdown.Menu>
+											<Dropdown.Header content="People You Might Know" />
+											{usersNotOnProject
+											&& usersNotOnProject.map((option) => (
+												<Dropdown.Item
+													key={option._id}
+													text={option.email}
+													value={option.email}
+													// image={<Icon user />}
+													onClick={() => handleAddUser(option)}
+												/>
+											))}
+										</Dropdown.Menu>
+									</Dropdown>
 								</List.Item>
-							))}
-						<List.Item>
-							<Button circular compact color="green" size="small">
-								Add user
-							</Button>
-						</List.Item>
-					</List>
+							</List>
+						)
+						: <span>Create new project or select existing to start working</span>}
 				</div>
 				<div className={styles.right_container}>
 					<Dropdown fluid button trigger={trigger} options={options} />
@@ -70,7 +111,6 @@ const Header = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-	currentUser: state.users.currentUser.email,
 	users: state.users.users,
 	activeProject: state.base.activeProject,
 });

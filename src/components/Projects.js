@@ -59,7 +59,7 @@ const Projects = (props) => {
 	};
 
 	const handleRemoveProject = (projectId) => {
-		// Send POST request and AFTER adding, change state to trigger useEffec
+		// Send DELETE request and AFTER deleting, change state to trigger useEffec
 		projectsServices.removeProject(projectId, fetchAgain, setFetchAgain);
 	};
 

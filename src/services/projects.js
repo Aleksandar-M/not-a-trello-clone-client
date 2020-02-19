@@ -68,6 +68,25 @@ const projectDetails = async (projectId) => {
 	}
 };
 
+const addUserToProject = async (projectId, user, val, callback) => {
+	try {
+		const result = await axios({
+			method: 'PATCH',
+			url: `${baseUrl}/${projectId}/userToProject/`,
+			headers: authHeader(),
+			data: { userId: user },
+		});
+
+		// Change fetchAgain state to trigger re-render
+		callback(!val);
+
+		console.log('result from axios', result);
+		return result;
+	} catch (err) {
+		console.log(err);
+	}
+};
+
 const allTabs = async (projectId) => {
 	try {
 		const result = await axios({
@@ -127,4 +146,5 @@ export default {
 	allTabs,
 	addNewTab,
 	addNewCard,
+	addUserToProject,
 };

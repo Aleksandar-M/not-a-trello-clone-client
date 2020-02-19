@@ -12,7 +12,16 @@ const reducers = combineReducers({
 	users: userReducer,
 });
 
-const store = createStore(reducers, applyMiddleware(thunk));
+const rootReducer = (state, action) => {
+	if (action.type === 'SIGNOUT') {
+		// Clear redux store after sign out
+		state = undefined;
+	}
+
+	return reducers(state, action);
+};
+
+const store = createStore(rootReducer, applyMiddleware(thunk));
 
 ReactDOM.render(
 	<Provider store={store}>

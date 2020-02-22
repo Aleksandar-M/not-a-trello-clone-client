@@ -1,36 +1,49 @@
 import projectServices from '../services/projects';
+import { alertErrorAction } from './alert';
 
 export const projectsAction = () => async (dispatch) => {
-	const res = await projectServices.allProjectsNames();
-	dispatch({
-		type: 'PROJECTS',
-		data: res.data.data.result,
-	});
+	try {
+		const res = await projectServices.allProjectsNames();
+
+		dispatch({
+			type: 'PROJECTS',
+			data: res.data.data.result,
+		});
+	} catch (err) {
+		dispatch(alertErrorAction(err.response.data.message));
+	}
+};
+
+export const projectDetailsAction = (projectId) => async (dispatch) => {
+	try {
+		const res = await projectServices.projectDetails(projectId);
+
+		dispatch({
+			type: 'PROJECT_DETAILS',
+			data: res.data.data.result,
+		});
+	} catch (err) {
+		dispatch(alertErrorAction(err.response.data.message));
+	}
+};
+
+export const tabsAction = (projectId) => async (dispatch) => {
+	try {
+		const res = await projectServices.allTabs();
+
+		dispatch({
+			type: 'ALL_TABS',
+			data: res.data.data.result,
+		});
+	} catch (err) {
+		dispatch(alertErrorAction(err.response.data.message));
+	}
 };
 
 export const activeProjectAction = (projectId) => ({
 	type: 'ACTIVE_PROJECT',
 	data: projectId,
 });
-
-export const projectDetailsAction = (projectId) => async (dispatch) => {
-	console.log('id from action', projectId);
-	const res = await projectServices.projectDetails(projectId);
-	console.log('res from action', res);
-	dispatch({
-		type: 'PROJECT_DETAILS',
-		data: res.data.data.result,
-	});
-};
-
-export const tabsAction = (projectId) => async (dispatch) => {
-	const res = await projectServices.allTabs(projectId);
-	console.log('res from tabs action', res);
-	dispatch({
-		type: 'ALL_TABS',
-		data: res.data.data.result,
-	});
-};
 
 const reducer = (state = {
 	projects: [], projectDetails: [], isLoading: true, activeProject: '', allTabs: [],

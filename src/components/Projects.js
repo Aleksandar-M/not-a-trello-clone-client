@@ -12,7 +12,7 @@ import useOutsideClick from '../hooks/index';
 
 const Projects = (props) => {
 	const {
-		projects, getProjectsNames, activeProject, users, allUsers,
+		projects, getProjectsNames, setActiveProject, users, allUsers,
 	} = props;
 
 	const [activeItem, setActiveItem] = useState('messages');
@@ -46,7 +46,7 @@ const Projects = (props) => {
 		setActiveItem(projectName);
 		console.log(projectName, projectId);
 
-		activeProject(projectId);
+		setActiveProject(projectId);
 	};
 
 	const handleCreateProject = () => {
@@ -61,6 +61,9 @@ const Projects = (props) => {
 	const handleRemoveProject = (projectId) => {
 		// Send DELETE request and AFTER deleting, change state to trigger useEffec
 		projectsServices.removeProject(projectId, fetchAgain, setFetchAgain);
+
+		// Trigger other components re-render
+		setActiveProject('');
 	};
 
 	return (
@@ -97,7 +100,7 @@ const Projects = (props) => {
 							</div>
 						))}
 					</Menu>
-				)			}
+				)}
 
 			{ showProjectInput
 				? (
@@ -142,14 +145,13 @@ const mapStateToProps = (state) => {
 	console.log(state);
 	return {
 		projects: state.base.projects,
-		activeProject: state.base.activeProject,
 		users: state.users.users,
 	};
 };
 
 const mapDispatchToProps = {
 	getProjectsNames: projectsAction,
-	activeProject: activeProjectAction,
+	setActiveProject: activeProjectAction,
 	allUsers: allUsersAction,
 };
 

@@ -5,11 +5,13 @@ import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import baseReducer from './reducers/base';
 import userReducer from './reducers/user';
+import alertReducer from './reducers/alert';
 import App from './App';
 
 const reducers = combineReducers({
 	base: baseReducer,
 	users: userReducer,
+	alert: alertReducer,
 });
 
 const rootReducer = (state, action) => {

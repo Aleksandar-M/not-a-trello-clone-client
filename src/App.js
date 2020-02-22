@@ -8,6 +8,7 @@ import Content from './components/Content';
 import styles from './components/Styles.module.css';
 import SignIn from './components/SignIn';
 import SignUp from './components/SignUp';
+import Notification from './components/Notification';
 
 function App() {
 	return (
@@ -26,6 +27,8 @@ function App() {
 								<Projects />
 								<Content />
 							</div>
+
+							<Notification />
 						</div>
 					)
 					: <Redirect to="/" />)}

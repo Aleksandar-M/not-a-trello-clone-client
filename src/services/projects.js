@@ -3,20 +3,23 @@ import authHeader from '../utils/authHeader';
 
 const baseUrl = 'http://localhost:8000/api/projects';
 
-const allProjectsNames = async () => {
-	try {
-		const result = await axios({
-			method: 'GET',
-			url: `${baseUrl}`,
-			headers: authHeader(),
-		});
+const allProjectsNames = () => axios({
+	method: 'GET',
+	url: `${baseUrl}`,
+	headers: authHeader(),
+});
 
-		console.log(result);
-		return result;
-	} catch (err) {
-		console.log(err);
-	}
-};
+const projectDetails = (projectId) => axios({
+	method: 'GET',
+	url: `${baseUrl}/${projectId}/cards/`,
+	headers: authHeader(),
+});
+
+const allTabs = () => axios({
+	method: 'GET',
+	url: 'http://localhost:8000/api/tabs',
+	headers: authHeader(),
+});
 
 const addNewProject = async (newProject, val, callback) => {
 	try {
@@ -53,21 +56,6 @@ const removeProject = async (projectId, val, callback) => {
 	}
 };
 
-const projectDetails = async (projectId) => {
-	try {
-		const result = await axios({
-			method: 'GET',
-			url: `${baseUrl}/${projectId}/cards/`,
-			headers: authHeader(),
-		});
-
-		console.log('result from axios', result);
-		return result;
-	} catch (err) {
-		console.log(err);
-	}
-};
-
 const addUserToProject = async (projectId, user, val, callback) => {
 	try {
 		const result = await axios({
@@ -79,21 +67,6 @@ const addUserToProject = async (projectId, user, val, callback) => {
 
 		// Change fetchAgain state to trigger re-render
 		callback(!val);
-
-		console.log('result from axios', result);
-		return result;
-	} catch (err) {
-		console.log(err);
-	}
-};
-
-const allTabs = async (projectId) => {
-	try {
-		const result = await axios({
-			method: 'GET',
-			url: 'http://localhost:8000/api/tabs',
-			headers: authHeader(),
-		});
 
 		console.log('result from axios', result);
 		return result;

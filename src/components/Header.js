@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {
-	List, Button, Dropdown, Icon,
+	List, Dropdown, Icon,
 } from 'semantic-ui-react';
 import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';

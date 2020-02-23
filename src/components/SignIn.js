@@ -11,7 +11,7 @@ import Notification from './Notification';
 
 const SignIn = (props) => {
 	const {
-		currentUser, isLoggedIn, signIn, alertError,
+		signIn, alertError,
 	} = props;
 	const history = useHistory();
 
@@ -24,9 +24,6 @@ const SignIn = (props) => {
 		} else {
 			alertError('Error: All fields are required!');
 		}
-
-		setEmail('');
-		setPassword('');
 	};
 
 
@@ -80,14 +77,9 @@ const SignIn = (props) => {
 	);
 };
 
-const mapStateToProps = (state) => ({
-	currentUser: state.users.currentUser,
-	isLoggedIn: state.users.isLoggedIn,
-});
-
 const mapDispatchToProps = {
 	signIn: signInAction,
 	alertError: alertErrorAction,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignIn);
+export default connect(null, mapDispatchToProps)(SignIn);

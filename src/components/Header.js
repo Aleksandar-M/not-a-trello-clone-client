@@ -13,6 +13,7 @@ const Header = (props) => {
 		signOut, users, allUsers, activeProject,
 	} = props;
 	const history = useHistory();
+	const today = new Date().toDateString();
 
 	const [fetchAgain, setFetchAgain] = useState(true);
 
@@ -59,7 +60,7 @@ const Header = (props) => {
 
 	return (
 		<header className={styles.header}>
-			<div className={styles.left_header}>levo</div>
+			<div className={styles.left_header}>{today}</div>
 			<div className={styles.right_header}>
 				<Icon name="users" size="big" style={{ paddingTop: '5px' }} />
 				<div className={styles.left_container}>

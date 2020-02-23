@@ -86,8 +86,7 @@ const Content = (props) => {
 						<Button
 							style={{ flex: 1 }}
 							size="tiny"
-							inverted
-							color="violet"
+							color="purple"
 							onClick={handleCreateTab}
 						>
 							Add

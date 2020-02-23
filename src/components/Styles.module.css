@@ -8,12 +8,20 @@
 }
 
 .left_header {
-	background: yellow;
-	width: 210px;
+	background: black;
+	width: 211px;
+
+	color: white;
+	font-size: large;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 .right_header {
-	background: grey;
+	background: rgba(144,144,144,1);
+
 	flex: 1;
 	display: flex;
 	padding-left: 10px;
@@ -49,7 +57,9 @@ nav {
 }
 
 .content {
-	background: linear-gradient(90deg, #d53369 0%, #daae51 100%);
+	background: rgb(0,0,0);
+	background: linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(144,144,144,1) 100%);
+
 	flex: 1;
 	padding: 10px 15px 5px 15px;
 

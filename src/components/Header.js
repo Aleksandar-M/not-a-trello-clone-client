@@ -69,7 +69,7 @@ const Header = (props) => {
 							<List divided horizontal size="big">
 								{usersOnProject
 									&& usersOnProject.map((el) => (
-										<List.Item>
+										<List.Item key={el._id}>
 											<List.Header>{el.email.split('@')[0]}</List.Header>
 										</List.Item>
 									))}

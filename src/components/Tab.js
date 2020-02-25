@@ -67,8 +67,7 @@ const Tab = (props) => {
 		const normFirst = normalizeDate(newFirst);
 		const normSecond = normalizeDate(newSecond);
 
-		const days = ((normSecond - normFirst) / (24 * 60 * 60 * 1000)) - 1;
-		return days.toString();
+		return ((normSecond - normFirst) / (24 * 60 * 60 * 1000)) - 1;
 	};
 
 	// Condition for rendering dots or number of days between cards
@@ -101,8 +100,7 @@ const Tab = (props) => {
 	};
 
 	// helpers
-	const daysUntilFirstCard = tab[0] && daysBetween(today, tab[0].deadlineDate);
-	console.log(daysUntilFirstCard);
+	const daysUntilFirstCard = tab[0] && daysBetween(today, tab[0].deadlineDate) + 1;
 
 	return (
 		<div className={styles.tab}>
@@ -207,10 +205,13 @@ const Tab = (props) => {
 						<Timeline theme={customTheme} opts={{ layout: 'inline-evts-inline-date' }}>
 							<Events>
 								{ renderDots(index, el)
-									? Array.from(Array(parseInt(
+									? Array.from(Array(
 										daysBetween(el.deadlineDate,
-											tab[index + 1].deadlineDate), 10,
-									)), (x, ind) => (
+											tab[index + 1].deadlineDate) < 0
+											? 0
+											: daysBetween(el.deadlineDate,
+												tab[index + 1].deadlineDate),
+									), (x, ind) => (
 										<TextEvent
 											key={ind}
 											date=""

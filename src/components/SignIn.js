@@ -65,7 +65,7 @@ const SignIn = (props) => {
 					{' '}
 					<Link
 						to="/signup"
-						style={{ color: 'white' }}
+						style={{ color: '#ADFF2F' }}
 					>
 						Sign up
 					</Link>

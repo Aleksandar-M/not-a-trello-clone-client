@@ -13,7 +13,13 @@ const Header = (props) => {
 		signOut, users, allUsers, activeProject,
 	} = props;
 	const history = useHistory();
-	const today = new Date().toDateString();
+
+	const t = new Date();
+	const today = new Date(
+		Date.UTC(t.getUTCFullYear(),
+			t.getUTCMonth(),
+			t.getUTCDate()),
+	).toDateString();
 
 	const [fetchAgain, setFetchAgain] = useState(true);
 
@@ -83,7 +89,9 @@ const Header = (props) => {
 										button
 										className="icon"
 									>
-										<Dropdown.Menu>
+										<Dropdown.Menu
+											style={{ zIndex: '300' }}
+										>
 											<Dropdown.Header content="People You Might Know" />
 											{usersNotOnProject
 											&& usersNotOnProject.map((option) => (

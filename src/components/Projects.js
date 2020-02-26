@@ -44,8 +44,6 @@ const Projects = (props) => {
 
 	const handleItemClick = (projectId, projectName) => {
 		setActiveItem(projectName);
-		console.log(projectName, projectId);
-
 		setActiveProject(projectId);
 	};
 
@@ -141,13 +139,10 @@ const Projects = (props) => {
 	);
 };
 
-const mapStateToProps = (state) => {
-	console.log(state);
-	return {
-		projects: state.base.projects,
-		users: state.users.users,
-	};
-};
+const mapStateToProps = (state) => ({
+	projects: state.base.projects,
+	users: state.users.users,
+});
 
 const mapDispatchToProps = {
 	getProjectsNames: projectsAction,

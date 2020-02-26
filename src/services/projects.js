@@ -68,7 +68,6 @@ const addUserToProject = async (projectId, user, val, callback) => {
 		// Change fetchAgain state to trigger re-render
 		callback(!val);
 
-		console.log('result from axios', result);
 		return result;
 	} catch (err) {
 		console.log(err);

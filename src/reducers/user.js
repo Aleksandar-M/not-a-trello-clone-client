@@ -54,7 +54,6 @@ export const signUpAction = (email, password, history) => async (dispatch) => {
 export const allUsersAction = () => async (dispatch) => {
 	try {
 		const res = await userServices.allUsers();
-		console.log('all users action', res);
 
 		dispatch({
 			type: 'ALL_USERS',

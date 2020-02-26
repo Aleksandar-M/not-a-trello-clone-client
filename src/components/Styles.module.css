@@ -58,9 +58,7 @@ nav {
 }
 
 .content {
-	background: rgb(0,0,0);
-	background: linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(144,144,144,1) 100%);
-
+	background: rgba(144,144,144);
 	flex: 1;
 	padding: 10px 15px 5px 15px;
 

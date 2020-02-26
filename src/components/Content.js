@@ -16,7 +16,6 @@ const Content = (props) => {
 	} = props;
 
 	const projectTabs = allTabs.filter((el) => el.project === activeProject);
-	console.log('project tabs', projectTabs);
 
 	const [showTabInput, setShowTabInput] = useState(false);
 	const [inputValue, setInputValue] = useState('');
@@ -110,15 +109,12 @@ const Content = (props) => {
 	);
 };
 
-const mapStateToProps = (state) => {
-	console.log('state from content', state);
-	return {
-		activeProject: state.base.activeProject,
-		projectDetails: state.base.projectDetails,
-		allTabs: state.base.allTabs,
-		loading: state.base.isLoading,
-	};
-};
+const mapStateToProps = (state) => ({
+	activeProject: state.base.activeProject,
+	projectDetails: state.base.projectDetails,
+	allTabs: state.base.allTabs,
+	loading: state.base.isLoading,
+});
 
 const mapDispatchToProps = {
 	getProjectDetails: projectDetailsAction,

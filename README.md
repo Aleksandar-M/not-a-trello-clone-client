@@ -1,4 +1,4 @@
-# :scroll: not-a-trello-clone-client
+# :scroll: Not a Trello clone
 Web application for tracking tasks based on their deadline date. Visually displayed using a timeline where top represents current day. Tasks which have deadline date further away from today's date will be also visually further away from top on timeline. As the days pass, timeline will shift upwards clearly indicating which task needs to be completed first.
 
 ## :tv: Demo
